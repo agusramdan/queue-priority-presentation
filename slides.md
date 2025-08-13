@@ -1,60 +1,106 @@
-# Queue dengan Prioritas & Background Process dari UI
+# Background Process di Odoo
+Cron • Queue Job • Background Process dari UI • Priority Queue • Cron Dispatch Job
 
 ---
 
-## Agenda
-1. Konsep Queue
-2. Prioritas Queue
-3. Background Process dari UI
-4. Integrasi Prioritas + UI
-5. Studi Kasus
+## Pendahuluan
+Background process = proses yang berjalan di belakang layar.
+
+**Tujuan:**
+- Mengurangi beban proses di UI.
+- Menjalankan tugas rutin secara otomatis.
+- Menangani proses berat secara asinkron.
 
 ---
 
-## 1. Konsep Queue
-- Antrian tugas yang dieksekusi sesuai urutan
-- FIFO (First In, First Out) untuk queue biasa
-- Dapat digunakan untuk job processing di server
+## Cron (Scheduled Actions)
+Menjalankan fungsi Python terjadwal menggunakan `ir.cron`.
+
+**Alur:**
+1. ir.cron disimpan di DB.
+2. Worker cron memeriksa interval.
+3. Eksekusi fungsi Python.
+
+**Kelebihan:** bawaan Odoo, mudah konfigurasi.  
+**Kekurangan:** blocking jika proses berat.
 
 ---
 
-## 2. Prioritas Queue
-- Setiap job memiliki prioritas (angka)
-- Job dengan prioritas lebih tinggi dieksekusi lebih dulu
-- Contoh skema:
-    - High (80%)
-    - Medium (15%)
-    - Low (5%)
+## Queue Job
+Menjalankan proses secara asinkron lewat antrian job.
+
+**Alur:**
+1. Job dimasukkan ke antrian.
+2. Worker mengambil job.
+3. Eksekusi di background.
+
+**Kelebihan:** tidak blocking, cocok proses berat.  
+**Kekurangan:** perlu modul tambahan.
 
 ---
 
-## 3. Background Process dari UI
-- User mengirim request via UI
-- Request masuk ke job queue
-- UI menampilkan status progress tanpa blocking
-- Cocok untuk operasi berat (generate report, proses data besar)
+## Background Process dari UI
+Proses berat yang dipicu oleh aksi user di UI.
+
+Tidak dijalankan langsung di thread request/response.
+
+**Alur:**
+1. User klik tombol / submit form.
+2. Server membuat job di queue.
+3. Worker memproses job.
+4. User mendapat notifikasi / hasil.
+
+**Manfaat:** UI tetap responsif.
+
+**Diagram ASCII:**
+
+
+
 
 ---
 
-## 4. Integrasi Prioritas + UI
-1. UI → Kirim job + level prioritas
-2. Server → Masukkan ke priority queue
-3. Worker → Eksekusi job sesuai prioritas
-4. UI → Polling / WebSocket untuk update status
+## Queue dengan Prioritas
+Queue memproses job berdasarkan prioritas, bukan urutan masuk.
+
+**Angka lebih kecil = prioritas lebih tinggi.**
+
+Contoh urutan eksekusi: **B(0) → C(5) → A(10)**.
+
+**Kapan digunakan:**
+- Proses kritis (notifikasi real-time).
+- Sinkronisasi data penting.
+- Job dengan SLA tinggi.
 
 ---
 
-## 5. Studi Kasus
-- Bank Syariah: Perhitungan bagi hasil nasabah
-- Sistem Ticketing: Request darurat diproses lebih cepat
-- E-commerce: Proses checkout diprioritaskan di atas rekomendasi produk
+## Cron Dispatch Job
+Menggabungkan cron sebagai pemicu dan queue sebagai eksekutor.
+
+**Alur:**
+1. Cron dijalankan sesuai jadwal.
+2. Cron membuat job di queue.
+3. Worker queue memproses job.
+
+**Kelebihan:** ringan di cron, scalable untuk job berat.
 
 ---
 
-## Diagram Alur
-![Flowchart Queue](https://raw.githubusercontent.com/user/repo/branch/path/to/flowchart.png)
+## Perbandingan Metode
+
+| Metode           | Terjadwal | Async | Bawaan | Skala Besar |
+|------------------|-----------|-------|--------|-------------|
+| Cron             | ✅        | ❌    | ✅     | ⚠           |
+| Queue Job        | ❌        | ✅    | ❌     | ✅           |
+| Background UI    | ❌        | ✅    | ❌     | ✅           |
+| Priority Queue   | ❌        | ✅    | ❌     | ✅           |
+| Cron Dispatch    | ✅        | ✅    | ❌     | ✅           |
 
 ---
 
-## Terima Kasih
-Pertanyaan?
+## Best Practice
+- Gunakan Cron untuk tugas ringan & rutin.
+- Gunakan Queue Job untuk tugas berat tanpa jadwal.
+- Gunakan Background UI untuk proses berat yang dipicu user.
+- Gunakan Priority Queue jika ada job penting yang harus dikerjakan dulu.
+- Gunakan Cron Dispatch Job untuk proses berat yang butuh jadwal.
+
