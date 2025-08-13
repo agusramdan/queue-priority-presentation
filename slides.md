@@ -54,7 +54,22 @@ Tidak dijalankan langsung di thread request/response.
 
 **Diagram ASCII:**
 
-
+[User Click]
+|
+v
+[Odoo Controller]
+|
+v
+[Create Job in Queue]
+|
+v
+[Background Worker]
+|
+v
+[Process Job]
+|
+v
+[Notify User / Update Record]
 
 
 ---
