@@ -13,7 +13,9 @@ style: |
 ---
 
 # Background Process di Odoo
-Cron • Queue Job • Background Process dari UI • Priority Queue • Cron Dispatch Job
+
+
+"Background jobs: unseen, unheard, unstoppable.
 
 ---
 
@@ -65,7 +67,8 @@ Tidak dijalankan langsung di thread request/response.
 4. User mendapat notifikasi / hasil.
 
 **Manfaat:** UI tetap responsif.
-
+---
+## Background Process dari UI (2)
 **Diagram ASCII:**
 
 [User Click]
@@ -84,7 +87,6 @@ v
 |
 v
 [Notify User / Update Record]
-
 
 ---
 
