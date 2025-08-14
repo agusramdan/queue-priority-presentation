@@ -102,6 +102,12 @@ Contoh urutan eksekusi: **B(0) → C(5) → A(10)**.
 - Sinkronisasi data penting.
 - Job dengan SLA tinggi.
 
+- Implementasi di `queue_job`:
+  ```python
+  self.with_delay(
+      priority=10,
+  ).my_function()
+
 ---
 
 ## Queue dengan Waktu Eksekusi (ETA)
@@ -150,4 +156,12 @@ Menggabungkan cron sebagai pemicu dan queue sebagai eksekutor.
 - Gunakan Background UI untuk proses berat yang dipicu user.
 - Gunakan Priority Queue jika ada job penting yang harus dikerjakan dulu.
 - Gunakan Cron Dispatch Job untuk proses berat yang butuh jadwal.
+
+
+---
+
+## END Q/A
+
+Like daemons in the system, silent workers keep the world running.
+
 
