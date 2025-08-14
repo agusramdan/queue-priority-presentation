@@ -71,6 +71,7 @@ Tidak dijalankan langsung di thread request/response.
 ---
 
 ## Background Process dari UI (2)
+
 **Diagram ASCII:**
 
 [User Click]
@@ -104,13 +105,6 @@ Contoh urutan eksekusi: **B(0) → C(5) → A(10)**.
 - Sinkronisasi data penting.
 - Job dengan SLA tinggi.
 
-- Implementasi di `queue_job`:
-  ```python
-  self.with_delay(
-      priority=10,
-  ).my_function()
-
-  ```
 
 ---
 
