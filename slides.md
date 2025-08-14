@@ -1,21 +1,8 @@
----
-marp: true
-theme: default
-class: invert
-backgroundColor: black
-color: #00FF00
-style: |
-  section {
-    font-family: 'Courier New', Courier, monospace;
-    background-color: #000000;
-    color: #00FF00;
-  }
----
 
 # Background Process di Odoo
 
 
-"Background jobs: unseen, unheard, unstoppable.
+"Background jobs: unseen, unheard, unstoppable."
 
 ---
 
@@ -72,24 +59,14 @@ Tidak dijalankan langsung di thread request/response.
 
 ## Background Process dari UI (2)
 
-**Diagram ASCII:**
+** Contoh ASCII:**
 
-[User Click]
-|
-v
-[Odoo Controller]
-|
-v
-[Create Job in Queue]
-|
-v
-[Background Worker]
-|
-v
-[Process Job]
-|
-v
-[Notify User / Update Record]
+1. User Click
+2. Odoo Controller
+3. Create Job in Queue
+4. Background Worker
+5. Process Job
+6. Notify User / Update Record
 
 ---
 
@@ -106,6 +83,19 @@ Contoh urutan eksekusi: **B(0) → C(5) → A(10)**.
 - Job dengan SLA tinggi.
 
 
+
+---
+
+
+###Implementasi di `queue_job`
+
+```python
+  self.with_delay(
+      priority=10,
+  ).my_function()
+
+```
+
 ---
 
 ## Queue dengan Waktu Eksekusi (ETA)
@@ -113,12 +103,20 @@ Contoh urutan eksekusi: **B(0) → C(5) → A(10)**.
 - Gunakan ketika:
   - Job hanya boleh berjalan setelah waktu tertentu.
   - Contoh: kirim reminder 2 jam sebelum meeting.
-- Implementasi di `queue_job`:
-  ```python
+
+
+---
+
+###Implementasi di `queue_job`
+
+```python
   self.with_delay(
       priority=10,
       eta=datetime.now() + timedelta(hours=2)
   ).my_function()
+
+```
+
 Worker hanya akan memproses job jika eta <= waktu sekarang.
 
 
@@ -154,12 +152,10 @@ Menggabungkan cron sebagai pemicu dan queue sebagai eksekutor.
 - Gunakan Background UI untuk proses berat yang dipicu user.
 - Gunakan Priority Queue jika ada job penting yang harus dikerjakan dulu.
 - Gunakan Cron Dispatch Job untuk proses berat yang butuh jadwal.
-
+- Bagi prosess besar menjadi lebih kecil (kurang 1 menit)
 
 ---
 
 ## END Q/A
 
 Like daemons in the system, silent workers keep the world running.
-
-
