@@ -110,6 +110,8 @@ Contoh urutan eksekusi: **B(0) → C(5) → A(10)**.
       priority=10,
   ).my_function()
 
+  ```
+
 ---
 
 ## Queue dengan Waktu Eksekusi (ETA)
