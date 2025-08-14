@@ -1,6 +1,7 @@
 ---
 marp: true
 theme: default
+class: invert
 backgroundColor: black
 color: #00FF00
 style: |
@@ -8,7 +9,6 @@ style: |
     font-family: 'Courier New', Courier, monospace;
     background-color: #000000;
     color: #00FF00;
-    font-size: 1.2em;
   }
 ---
 
