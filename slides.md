@@ -1,3 +1,17 @@
+---
+marp: true
+theme: default
+backgroundColor: black
+color: #00FF00
+style: |
+  section {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #000000;
+    color: #00FF00;
+    font-size: 1.2em;
+  }
+---
+
 # Background Process di Odoo
 Cron • Queue Job • Background Process dari UI • Priority Queue • Cron Dispatch Job
 
@@ -85,6 +99,22 @@ Contoh urutan eksekusi: **B(0) → C(5) → A(10)**.
 - Proses kritis (notifikasi real-time).
 - Sinkronisasi data penting.
 - Job dengan SLA tinggi.
+
+---
+
+## Queue dengan Waktu Eksekusi (ETA)
+- ETA = Estimated Time of Arrival (jadwal eksekusi).
+- Gunakan ketika:
+  - Job hanya boleh berjalan setelah waktu tertentu.
+  - Contoh: kirim reminder 2 jam sebelum meeting.
+- Implementasi di `queue_job`:
+  ```python
+  self.with_delay(
+      priority=10,
+      eta=datetime.now() + timedelta(hours=2)
+  ).my_function()
+Worker hanya akan memproses job jika eta <= waktu sekarang.
+
 
 ---
 
