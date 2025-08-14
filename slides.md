@@ -45,7 +45,7 @@ Menjalankan proses secara asinkron lewat antrian job.
 2. Worker mengambil job.
 3. Eksekusi di background.
 
-**Kelebihan:** tidak blocking, cocok proses berat.  
+**Kelebihan:** tidak blocking, cocok proses berat, Retry job bila gagal.  
 **Kekurangan:** perlu modul tambahan.
 
 ---
