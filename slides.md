@@ -67,7 +67,9 @@ Tidak dijalankan langsung di thread request/response.
 4. User mendapat notifikasi / hasil.
 
 **Manfaat:** UI tetap responsif.
+
 ---
+
 ## Background Process dari UI (2)
 **Diagram ASCII:**
 
