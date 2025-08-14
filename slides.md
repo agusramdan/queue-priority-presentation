@@ -13,6 +13,14 @@ Background process = proses yang berjalan di belakang layar.
 - Mengurangi beban proses di UI.
 - Menjalankan tugas rutin secara otomatis.
 - Menangani proses berat secara asinkron.
+- Meningkatkan utilise CPU
+
+
+---
+## Implementasi di ODOO
+
+- Cron
+- Job Queue
 
 ---
 
